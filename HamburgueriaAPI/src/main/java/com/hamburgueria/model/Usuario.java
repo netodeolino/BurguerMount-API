@@ -42,6 +42,7 @@ public class Usuario implements UserDetails {
 	
 	@Column(columnDefinition = "text", length = Constants.TAM_MAX_IMG_64)
 	private String foto64;
+	private String keyFacebook;
 	
 	@ManyToOne
 	private Sede sede;
@@ -134,6 +135,14 @@ public class Usuario implements UserDetails {
 
 	public void setPapel(Papel papel) {
 		this.papel = papel;
+	}
+
+	public String getKeyFacebook() {
+		return keyFacebook;
+	}
+
+	public void setKeyFacebook(String keyFacebook) {
+		this.keyFacebook = keyFacebook;
 	}
 
 	@Override

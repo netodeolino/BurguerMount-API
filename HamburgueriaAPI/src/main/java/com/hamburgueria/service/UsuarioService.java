@@ -53,6 +53,10 @@ public class UsuarioService {
 		return usuarioRepository.findAll();
 	}
 	
+	public Usuario getUsuarioKeyFacebook(String keyFacebook){
+		return usuarioRepository.findByKeyFacebook(keyFacebook);
+	}
+	
 	public boolean logar(String email, String senha){
 		Usuario userBanco = usuarioRepository.findByEmail(email);
 		if(userBanco != null && new BCryptPasswordEncoder().matches(senha, userBanco.getSenha())) return true;
