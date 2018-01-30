@@ -21,10 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/logar").permitAll()
-			.antMatchers(HttpMethod.POST, "/logarfacebook").permitAll()
-			.antMatchers(HttpMethod.POST, "/testetoken").permitAll()
-			.antMatchers(HttpMethod.POST, "/cadastrar").permitAll()
+			.antMatchers(HttpMethod.POST, "/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			
