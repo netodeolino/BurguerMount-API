@@ -42,7 +42,6 @@ public class Usuario implements UserDetails {
 	
 	@Column(columnDefinition = "text", length = Constants.TAM_MAX_IMG_64)
 	private String foto64;
-	private String keyFacebook;
 	
 	@ManyToOne
 	private Sede sede;
@@ -53,8 +52,12 @@ public class Usuario implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Papel papel;
 	
+	private int creditos;
+	
+	private Long idPadrinho;
+	
 	public Usuario() {
-		
+		this.creditos = 0;
 	}
 	
 	public Long getId() {
@@ -137,12 +140,20 @@ public class Usuario implements UserDetails {
 		this.papel = papel;
 	}
 
-	public String getKeyFacebook() {
-		return keyFacebook;
+	public int getCreditos() {
+		return creditos;
 	}
 
-	public void setKeyFacebook(String keyFacebook) {
-		this.keyFacebook = keyFacebook;
+	public void setCreditos(int creditos) {
+		this.creditos = creditos;
+	}
+
+	public Long getIdPadrinho() {
+		return idPadrinho;
+	}
+
+	public void setIdPadrinho(Long idPadrinho) {
+		this.idPadrinho = idPadrinho;
 	}
 
 	@Override

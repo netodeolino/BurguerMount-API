@@ -2,12 +2,12 @@ package com.hamburgueria.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.hamburgueria.util.Constants;
@@ -23,8 +23,11 @@ public class TipoIngrediente {
 	@Column(columnDefinition = "text", length = Constants.TAM_MAX_IMG_64)
 	private String foto64;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany
 	private List<Ingrediente> ingredientes;
+	
+	@ManyToOne
+	private Sede sede;
 	
 	public TipoIngrediente() {
 		
@@ -60,6 +63,14 @@ public class TipoIngrediente {
 
 	public void setIngredientes(List<Ingrediente> ingredientes) {
 		this.ingredientes = ingredientes;
+	}
+
+	public Sede getSede() {
+		return sede;
+	}
+
+	public void setSede(Sede sede) {
+		this.sede = sede;
 	}
 		
 }
