@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -19,18 +21,28 @@ public class Pedido {
 	
 	private Date data;
 	private String local;
-	private Double preço;
-	private Double dinheiroCliente;
+	private Double preco;
+	private Double troco;
 	private String mensagem;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status;
 	
 	@ManyToOne
 	private Usuario cliente;
 	
-	@OneToMany
-	private List<Ingrediente> ingredientes;
+	@ManyToOne
+	private Sede sede;
+	
+	@ManyToMany
+	private List<Produto> produtos;
 	
 	public Pedido() {
 		
+	}
+	
+	public Pedido(Double preco) {
+		this.preco = preco;
 	}
 
 	public Long getId() {
@@ -57,20 +69,20 @@ public class Pedido {
 		this.local = local;
 	}
 
-	public Double getPreço() {
-		return preço;
+	public Double getPreco() {
+		return preco;
 	}
 
-	public void setPreço(Double preço) {
-		this.preço = preço;
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 
-	public Double getDinheiroCliente() {
-		return dinheiroCliente;
+	public Double getTroco() {
+		return troco;
 	}
 
-	public void setDinheiroCliente(Double dinheiroCliente) {
-		this.dinheiroCliente = dinheiroCliente;
+	public void setTroco(Double troco) {
+		this.troco = troco;
 	}
 
 	public String getMensagem() {
@@ -81,6 +93,14 @@ public class Pedido {
 		this.mensagem = mensagem;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	public Usuario getCliente() {
 		return cliente;
 	}
@@ -89,12 +109,19 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 
-	public List<Ingrediente> getIngredientes() {
-		return ingredientes;
+	public Sede getSede() {
+		return sede;
 	}
 
-	public void setIngredientes(List<Ingrediente> ingredientes) {
-		this.ingredientes = ingredientes;
+	public void setSede(Sede sede) {
+		this.sede = sede;
 	}
-	
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 }

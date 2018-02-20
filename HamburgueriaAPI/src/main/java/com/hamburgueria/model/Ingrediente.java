@@ -7,8 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.hamburgueria.util.Constants;
 
@@ -21,8 +22,12 @@ public class Ingrediente {
 	
 	private String nome;
 	private Integer qtd;
+	private String porcao;
 	private Double valorDeVenda;
 	private Double valorBruto;
+	
+	@NotNull
+	private boolean disponivel;
 	
 	@Column(columnDefinition = "text", length = Constants.TAM_MAX_IMG_64)
 	private String foto64;
@@ -30,12 +35,13 @@ public class Ingrediente {
 	@ManyToOne
 	private Sede sede;
 	
+	@NotNull
 	@ManyToOne
 	private TipoIngrediente tipoIngrediente;
 	
-	@OneToMany
-	private List<ProdutoIngrediente> produtoIngredientes;
-	
+	@ManyToMany
+	private List<Produto> produtos;
+
 	public Ingrediente() {
 		
 	}
@@ -64,6 +70,14 @@ public class Ingrediente {
 		this.qtd = qtd;
 	}
 
+	public String getPorcao() {
+		return porcao;
+	}
+
+	public void setPorcao(String porcao) {
+		this.porcao = porcao;
+	}
+
 	public Double getValorDeVenda() {
 		return valorDeVenda;
 	}
@@ -88,6 +102,14 @@ public class Ingrediente {
 		this.foto64 = foto64;
 	}
 
+	public boolean isDisponivel() {
+		return disponivel;
+	}
+
+	public void setDisponivel(boolean disponivel) {
+		this.disponivel = disponivel;
+	}
+
 	public Sede getSede() {
 		return sede;
 	}
@@ -104,12 +126,11 @@ public class Ingrediente {
 		this.tipoIngrediente = tipoIngrediente;
 	}
 
-	public List<ProdutoIngrediente> getProdutoIngredientes() {
-		return produtoIngredientes;
+	public List<Produto> getProdutos() {
+		return produtos;
 	}
 
-	public void setProdutoIngredientes(List<ProdutoIngrediente> produtoIngredientes) {
-		this.produtoIngredientes = produtoIngredientes;
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
-			
 }
