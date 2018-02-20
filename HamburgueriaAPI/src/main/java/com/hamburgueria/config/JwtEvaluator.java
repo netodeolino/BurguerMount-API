@@ -34,11 +34,10 @@ public class JwtEvaluator {
 				System.out.println("--jwtEvaluator-- Email: " + email);
 				return usuarioService.buscar(email);
 			}catch (Exception e) {
-				throw new ServletException("Token invalido");
+				throw new ServletException("Token inválido");
 			}
         }
-        
-        throw new ServletException("Token invalido");
+        throw new ServletException("Token inválido");
 	}
 
 }

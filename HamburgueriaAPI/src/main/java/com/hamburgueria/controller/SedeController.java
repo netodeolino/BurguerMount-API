@@ -14,6 +14,7 @@ import com.hamburgueria.model.Sede;
 import com.hamburgueria.service.SedeService;
 
 @RestController
+@RequestMapping("/sede")
 public class SedeController {
 	
 	@Autowired
