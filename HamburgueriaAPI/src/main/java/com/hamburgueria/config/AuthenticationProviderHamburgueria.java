@@ -22,11 +22,10 @@ public class AuthenticationProviderHamburgueria implements AuthenticationProvide
 		String email = auth.getName();
 		String senha = auth.getCredentials().toString();
 		
-		if(usuarioService.logar(email, senha)) {
+		if (usuarioService.logar(email, senha)) {
 			Usuario userBanco = usuarioService.buscar(email);
 			return new UsernamePasswordAuthenticationToken(userBanco, senha, userBanco.getAuthorities());
 		}
-		
 		throw new UsernameNotFoundException("Login e/ou Senha inválidos.");
 	}
 	

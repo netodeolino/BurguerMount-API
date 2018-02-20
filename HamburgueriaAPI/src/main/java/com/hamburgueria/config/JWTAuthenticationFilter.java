@@ -24,20 +24,18 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 		
 		Authentication authentication = null;
 		
-		try{
+		try {
 			authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			filterChain.doFilter(request, response);
-		}catch (TokenException e) {
+		} catch (TokenException e) {
 			ObjectMapper mapper = new ObjectMapper();
-			String json =  mapper.writeValueAsString(new MensagemRetorno("Token invalido"));
+			String json =  mapper.writeValueAsString(new MensagemRetorno("Token inválido"));
 			HttpServletResponse res = (HttpServletResponse) response;
 			res.reset();
 			res.setHeader("Content-Type", "application/json;charset=UTF-8");
 			res.setStatus(400);
 			res.getWriter().write(json);
 		}
-		
 	}
-	
 }

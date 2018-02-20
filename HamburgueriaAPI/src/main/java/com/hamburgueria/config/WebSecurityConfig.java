@@ -21,19 +21,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/**").permitAll()
-			.antMatchers(HttpMethod.GET, "/**").permitAll()
+			.antMatchers(HttpMethod.POST, "/usuario/logar").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			
 			// filtra outras requisições para verificar a presença do JWT no header
-			.addFilterBefore(new JWTAuthenticationFilter(),
-	                UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authProvider);
 	}
-	
 }
