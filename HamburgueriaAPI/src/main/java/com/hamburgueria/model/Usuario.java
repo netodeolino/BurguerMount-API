@@ -19,6 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hamburgueria.util.Constants;
 
 @Entity
@@ -36,6 +37,7 @@ public class Usuario implements UserDetails {
 	@Column(unique = true)
 	private String email;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimento;
 	private String senha;
