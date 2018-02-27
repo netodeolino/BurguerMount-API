@@ -16,6 +16,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hamburgueria.exceptions.TokenException;
 import com.hamburgueria.response.MensagemRetorno;
+import com.hamburgueria.util.Constants;
 
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
@@ -30,7 +31,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 			filterChain.doFilter(request, response);
 		} catch (TokenException e) {
 			ObjectMapper mapper = new ObjectMapper();
-			String json =  mapper.writeValueAsString(new MensagemRetorno("Token inválido"));
+			String json =  mapper.writeValueAsString(new MensagemRetorno(Constants.TOKEN_INVALIDO));
 			HttpServletResponse res = (HttpServletResponse) response;
 			res.reset();
 			res.setHeader("Content-Type", "application/json;charset=UTF-8");

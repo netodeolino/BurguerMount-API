@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.hamburgueria.model.Usuario;
 import com.hamburgueria.service.UsuarioService;
+import com.hamburgueria.util.Constants;
 
 @Component
 public class AuthenticationProviderHamburgueria implements AuthenticationProvider{
@@ -26,7 +27,7 @@ public class AuthenticationProviderHamburgueria implements AuthenticationProvide
 			Usuario userBanco = usuarioService.buscar(email);
 			return new UsernamePasswordAuthenticationToken(userBanco, senha, userBanco.getAuthorities());
 		}
-		throw new UsernameNotFoundException("Login e/ou Senha inválidos.");
+		throw new UsernameNotFoundException(Constants.ERRO_EMAIL_SENHA);
 	}
 	
 	@Override
