@@ -26,7 +26,7 @@ public class TokenAuthenticationService {
 						.getBody()
 						.getSubject();
 			}catch (Exception e) {
-				throw new TokenException("Token inválido");
+				throw new TokenException(Constants.TOKEN_INVALIDO);
 			}
 			
 			if (user != null) {

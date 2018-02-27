@@ -20,7 +20,7 @@ public class JwtEvaluator {
 	@Autowired
 	private HttpServletRequest request;
 	
-	public Usuario usuarioToken() throws ServletException{
+	public Usuario usuarioToken() throws ServletException {
 		String token = request.getHeader(Constants.HEADER_STRING);
 		System.out.println("--jwtEvaluator-- Token: " + token);
         if (token != null) {
@@ -34,10 +34,10 @@ public class JwtEvaluator {
 				System.out.println("--jwtEvaluator-- Email: " + email);
 				return usuarioService.buscar(email);
 			}catch (Exception e) {
-				throw new ServletException("Token inválido");
+				throw new ServletException(Constants.TOKEN_INVALIDO);
 			}
         }
-        throw new ServletException("Token inválido");
+        throw new ServletException(Constants.TOKEN_INVALIDO);
 	}
 
 }
