@@ -52,7 +52,7 @@ public class UsuarioController {
 	
 	private static final long EXPIRATION_TIME = 1000 * Constants.TOKEN_EXPIRAR_MINUTOS;
 	
-	@PostMapping(path="/logar")
+	@PostMapping(path="/login")
 	public AuthToken logar(@RequestBody Usuario usuario){
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				usuario.getUsername(), 
@@ -67,7 +67,7 @@ public class UsuarioController {
 		return new AuthToken(Constants.TOKEN_PREFIX + " " + JWT);
 	}
 	
-	@GetMapping(path="/listar")
+	@GetMapping
 	public ResponseEntity<List<UsuarioData>> listar() throws ServletException {
 		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
 		
@@ -82,7 +82,7 @@ public class UsuarioController {
 		return new ResponseEntity<List<UsuarioData>>(usuarios, HttpStatus.OK);
 	}
 	
-	@PostMapping(path="/cadastrar")
+	@PostMapping
 	public MensagemRetorno cadastrar(@RequestBody @Valid Usuario usuario) throws BadRequestException {
 		try {
 			usuario.setPapel(Papel.CLIENTE);
@@ -94,7 +94,7 @@ public class UsuarioController {
 	}
 	
 	// Quais informações serão atualizadas? Criar métodos diferentes para cada tipo de atualização? Coisas a serem decididas!
-	@PutMapping(path="/atualizar")
+	@PutMapping
 	public MensagemRetorno atualizar(@RequestBody Usuario usuario) {
 		Usuario usuarioBanco = usuarioService.buscar(usuario.getEmail());
 		if (usuarioService.compararSenha(usuario.getSenha(), usuarioBanco.getSenha())) {
@@ -105,7 +105,7 @@ public class UsuarioController {
 		return new MensagemRetorno(Constants.ERRO_EMAIL_SENHA);
 	}
 	
-	@DeleteMapping(path="/excluir")
+	@DeleteMapping
 	public MensagemRetorno excluir(@PathParam(value="email") String email) {
 		Usuario usuarioBanco = usuarioService.buscar(email);
 		usuarioService.excluir(usuarioBanco.getId());
@@ -116,14 +116,20 @@ public class UsuarioController {
 	public MensagemRetorno token(@RequestBody AuthToken authToken) throws TokenException {
 		String token = authToken.getToken();
         if (token != null) {
-			String email = Jwts.parser()
+        	String email = null;
+        	try {
+        		email = Jwts.parser()
 								.setSigningKey(Constants.CHAVE_SECRETA)
 								.parseClaimsJws(token.replace(Constants.TOKEN_PREFIX, ""))
 								.getBody()
 								.getSubject();
+        	}catch (Exception e) {
+        		throw new TokenException(Constants.TOKEN_INVALIDO);
+        	}
 			if(usuarioService.buscar(email) != null) {
 				return new MensagemRetorno(Constants.TOKEN_VALIDO);
 			}
+			return new MensagemRetorno(Constants.ERRO_EMAIL_SENHA);
         }
         throw new TokenException(Constants.TOKEN_INVALIDO);
 	}
