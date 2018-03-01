@@ -1,25 +1,42 @@
 package com.hamburgueria.response;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hamburgueria.model.Papel;
 
 public class UsuarioData {
 
 	private Long id;
 	private String nome;
+	private String telefone;
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date dataNascimento;
+	
 	private String email;
 	private String senha;
+	private int creditos;
 	private Papel papel;
+	private Long sede;
 
 	public UsuarioData() {
 	}
 
-	public UsuarioData(Long id, String nome, String email, String senha, Papel papel) {
-		super();
+	public UsuarioData(Long id, String nome, String telefone, Date dataNascimento,
+			String email, String senha, int creditos, Papel papel, Long sede) {
 		this.id = id;
 		this.nome = nome;
+		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
 		this.email = email;
 		this.senha = senha;
+		this.creditos = creditos;
 		this.papel = papel;
+		this.sede = sede;
 	}
 
 	public Long getId() {
@@ -38,6 +55,22 @@ public class UsuarioData {
 		this.nome = nome;
 	}
 
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -54,11 +87,27 @@ public class UsuarioData {
 		this.senha = senha;
 	}
 
+	public int getCreditos() {
+		return creditos;
+	}
+
+	public void setCreditos(int creditos) {
+		this.creditos = creditos;
+	}
+
 	public Papel getPapel() {
 		return papel;
 	}
 
 	public void setPapel(Papel papel) {
 		this.papel = papel;
+	}
+
+	public Long getSede() {
+		return sede;
+	}
+
+	public void setSede(Long sede) {
+		this.sede = sede;
 	}
 }

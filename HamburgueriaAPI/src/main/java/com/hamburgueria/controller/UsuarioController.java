@@ -1,11 +1,8 @@
 package com.hamburgueria.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
@@ -68,18 +65,13 @@ public class UsuarioController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<UsuarioData>> listar() throws ServletException {
+	public ResponseEntity<UsuarioData> buscar() throws TokenException {
 		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
 		
-		List<UsuarioData> usuarios = new ArrayList<>();
-		List<Usuario> usuariosBanco = usuarioService.listar(usuarioLogado.getSede().getId());
-		
-		for (Usuario usuario : usuariosBanco) {
-			usuarios.add(new UsuarioData(
-					usuario.getId(), usuario.getNome(), 
-					usuario.getEmail(), usuario.getSenha(), usuario.getPapel()));
-		}
-		return new ResponseEntity<List<UsuarioData>>(usuarios, HttpStatus.OK);
+		return new ResponseEntity<UsuarioData>(new UsuarioData(
+				usuarioLogado.getId(), usuarioLogado.getNome(), usuarioLogado.getTelefone(), usuarioLogado.getDataNascimento(),
+				usuarioLogado.getEmail(), usuarioLogado.getSenha(), usuarioLogado.getCreditos(), usuarioLogado.getPapel(),
+				usuarioLogado.getSede().getId()), HttpStatus.OK);
 	}
 	
 	@PostMapping
