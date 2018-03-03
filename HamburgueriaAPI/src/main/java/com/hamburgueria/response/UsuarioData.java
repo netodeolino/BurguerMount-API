@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hamburgueria.model.Papel;
 
 public class UsuarioData {
 
@@ -18,24 +17,20 @@ public class UsuarioData {
 	private Date dataNascimento;
 	
 	private String email;
-	private String senha;
 	private int creditos;
-	private Papel papel;
 	private String sede;
 
 	public UsuarioData() {
 	}
 
 	public UsuarioData(Long id, String nome, String telefone, Date dataNascimento,
-			String email, String senha, int creditos, Papel papel, String sede) {
+			String email, int creditos, String sede) {
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
-		this.senha = senha;
 		this.creditos = creditos;
-		this.papel = papel;
 		this.sede = sede;
 	}
 
@@ -79,28 +74,12 @@ public class UsuarioData {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public int getCreditos() {
 		return creditos;
 	}
 
 	public void setCreditos(int creditos) {
 		this.creditos = creditos;
-	}
-
-	public Papel getPapel() {
-		return papel;
-	}
-
-	public void setPapel(Papel papel) {
-		this.papel = papel;
 	}
 
 	public String getSede() {
