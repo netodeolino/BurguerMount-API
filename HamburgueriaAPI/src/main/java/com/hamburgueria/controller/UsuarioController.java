@@ -68,10 +68,22 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioData> buscar() throws TokenException {
 		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
 		
-		return new ResponseEntity<UsuarioData>(new UsuarioData(
-				usuarioLogado.getId(), usuarioLogado.getNome(), usuarioLogado.getTelefone(), usuarioLogado.getDataNascimento(),
-				usuarioLogado.getEmail(), usuarioLogado.getSenha(), usuarioLogado.getCreditos(), usuarioLogado.getPapel(),
-				usuarioLogado.getSede().getCidade()), HttpStatus.OK);
+		UsuarioData userResponse = new UsuarioData();
+		if (usuarioLogado.getDataNascimento() != null) {
+			userResponse.setDataNascimento(usuarioLogado.getDataNascimento());
+		}
+		if (usuarioLogado.getTelefone() != null) {
+			userResponse.setTelefone(usuarioLogado.getTelefone());
+		}
+		if (usuarioLogado.getSede() != null) {
+			userResponse.setSede(usuarioLogado.getSede().getCidade());
+		}
+		userResponse.setId(usuarioLogado.getId());
+		userResponse.setCreditos(usuarioLogado.getCreditos());
+		userResponse.setEmail(usuarioLogado.getEmail());
+		userResponse.setNome(usuarioLogado.getNome());
+		
+		return new ResponseEntity<UsuarioData>(userResponse, HttpStatus.OK);
 	}
 	
 	@PostMapping
