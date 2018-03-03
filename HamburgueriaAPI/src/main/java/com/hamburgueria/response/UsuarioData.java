@@ -21,13 +21,13 @@ public class UsuarioData {
 	private String senha;
 	private int creditos;
 	private Papel papel;
-	private Long sede;
+	private String sede;
 
 	public UsuarioData() {
 	}
 
 	public UsuarioData(Long id, String nome, String telefone, Date dataNascimento,
-			String email, String senha, int creditos, Papel papel, Long sede) {
+			String email, String senha, int creditos, Papel papel, String sede) {
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
@@ -103,11 +103,11 @@ public class UsuarioData {
 		this.papel = papel;
 	}
 
-	public Long getSede() {
+	public String getSede() {
 		return sede;
 	}
 
-	public void setSede(Long sede) {
+	public void setSede(String sede) {
 		this.sede = sede;
 	}
 }

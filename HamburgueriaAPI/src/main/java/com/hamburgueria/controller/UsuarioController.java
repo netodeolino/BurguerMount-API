@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hamburgueria.config.JwtEvaluator;
 import com.hamburgueria.exceptions.TokenException;
+import com.hamburgueria.exceptions.UsuarioException;
 import com.hamburgueria.model.Papel;
 import com.hamburgueria.model.Usuario;
 import com.hamburgueria.response.AuthToken;
@@ -32,7 +33,6 @@ import com.hamburgueria.util.Constants;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.undertow.util.BadRequestException;
 
 @RestController
 @RequestMapping("/usuario")
@@ -71,17 +71,17 @@ public class UsuarioController {
 		return new ResponseEntity<UsuarioData>(new UsuarioData(
 				usuarioLogado.getId(), usuarioLogado.getNome(), usuarioLogado.getTelefone(), usuarioLogado.getDataNascimento(),
 				usuarioLogado.getEmail(), usuarioLogado.getSenha(), usuarioLogado.getCreditos(), usuarioLogado.getPapel(),
-				usuarioLogado.getSede().getId()), HttpStatus.OK);
+				usuarioLogado.getSede().getCidade()), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public MensagemRetorno cadastrar(@RequestBody @Valid Usuario usuario) throws BadRequestException {
+	public MensagemRetorno cadastrar(@RequestBody @Valid Usuario usuario) throws UsuarioException {
 		try {
 			usuario.setPapel(Papel.CLIENTE);
 			usuarioService.salvar(usuario);
 			return new MensagemRetorno(Constants.SUCESSO_CADASTRO_USUARIO);
 		} catch (Exception e) {
-			throw new BadRequestException(e);
+			throw new UsuarioException(Constants.ERRO_CADASTRO_USUARIO);
 		}
 	}
 	
