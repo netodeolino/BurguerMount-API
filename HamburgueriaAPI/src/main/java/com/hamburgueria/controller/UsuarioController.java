@@ -27,6 +27,7 @@ import com.hamburgueria.model.Papel;
 import com.hamburgueria.model.Usuario;
 import com.hamburgueria.response.AuthToken;
 import com.hamburgueria.response.MensagemRetorno;
+import com.hamburgueria.response.SedeData;
 import com.hamburgueria.response.UsuarioData;
 import com.hamburgueria.service.UsuarioService;
 import com.hamburgueria.util.Constants;
@@ -68,7 +69,9 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioData> buscar() throws TokenException {
 		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
 		
-		UsuarioData userResponse = new UsuarioData();
+		UsuarioData userResponse = new UsuarioData(usuarioLogado.getId(), usuarioLogado.getNome(),
+												   usuarioLogado.getEmail(), usuarioLogado.getCreditos());
+		
 		if (usuarioLogado.getDataNascimento() != null) {
 			userResponse.setDataNascimento(usuarioLogado.getDataNascimento());
 		}
@@ -76,13 +79,10 @@ public class UsuarioController {
 			userResponse.setTelefone(usuarioLogado.getTelefone());
 		}
 		if (usuarioLogado.getSede() != null) {
-			userResponse.setSede(usuarioLogado.getSede().getCidade());
+			SedeData sedeData = new SedeData(usuarioLogado.getSede().getId(), usuarioLogado.getSede().getCidade());
+			
+			userResponse.setSede(sedeData);
 		}
-		userResponse.setId(usuarioLogado.getId());
-		userResponse.setCreditos(usuarioLogado.getCreditos());
-		userResponse.setEmail(usuarioLogado.getEmail());
-		userResponse.setNome(usuarioLogado.getNome());
-		
 		return new ResponseEntity<UsuarioData>(userResponse, HttpStatus.OK);
 	}
 	
