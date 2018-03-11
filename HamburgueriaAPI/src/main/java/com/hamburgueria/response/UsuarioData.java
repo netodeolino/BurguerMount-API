@@ -20,6 +20,8 @@ public class UsuarioData {
 	private int creditos;
 	private SedeData sede;
 
+	private String foto64;
+	
 	public UsuarioData(Long id, String nome, String email, int creditos) {
 		this.id = id;
 		this.nome = nome;
@@ -81,5 +83,13 @@ public class UsuarioData {
 
 	public void setSede(SedeData sede) {
 		this.sede = sede;
+	}
+
+	public String getFoto64() {
+		return foto64;
+	}
+
+	public void setFoto64(String foto64) {
+		this.foto64 = foto64;
 	}
 }

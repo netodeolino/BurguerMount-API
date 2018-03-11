@@ -83,6 +83,9 @@ public class UsuarioController {
 			
 			userResponse.setSede(sedeData);
 		}
+		if (usuarioLogado.getFoto64() != null) {
+			userResponse.setFoto64(usuarioLogado.getFoto64());
+		}
 		return new ResponseEntity<UsuarioData>(userResponse, HttpStatus.OK);
 	}
 	
