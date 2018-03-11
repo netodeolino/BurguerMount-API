@@ -20,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hamburgueria.util.Constants;
 
 @Entity
@@ -46,6 +47,7 @@ public class Usuario implements UserDetails {
 	private String foto64;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Sede sede;
 	
 	@OneToMany

@@ -18,20 +18,15 @@ public class UsuarioData {
 	
 	private String email;
 	private int creditos;
-	private String sede;
+	private SedeData sede;
 
-	public UsuarioData() {
-	}
-
-	public UsuarioData(Long id, String nome, String telefone, Date dataNascimento,
-			String email, int creditos, String sede) {
+	private String foto64;
+	
+	public UsuarioData(Long id, String nome, String email, int creditos) {
 		this.id = id;
 		this.nome = nome;
-		this.telefone = telefone;
-		this.dataNascimento = dataNascimento;
 		this.email = email;
 		this.creditos = creditos;
-		this.sede = sede;
 	}
 
 	public Long getId() {
@@ -82,11 +77,19 @@ public class UsuarioData {
 		this.creditos = creditos;
 	}
 
-	public String getSede() {
+	public SedeData getSede() {
 		return sede;
 	}
 
-	public void setSede(String sede) {
+	public void setSede(SedeData sede) {
 		this.sede = sede;
+	}
+
+	public String getFoto64() {
+		return foto64;
+	}
+
+	public void setFoto64(String foto64) {
+		this.foto64 = foto64;
 	}
 }
