@@ -140,4 +140,14 @@ public class UsuarioController {
         }
         throw new TokenException(Constants.TOKEN_INVALIDO);
 	}
+	
+	@GetMapping(path="/atrusuario")
+	public ResponseEntity<Boolean> atrUsuario() throws TokenException {
+		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
+		if (usuarioLogado.getTelefone() == null || usuarioLogado.getDataNascimento() == null
+				|| usuarioLogado.getFoto64() == null || usuarioLogado.getSede() == null) {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
 }
