@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,8 +38,7 @@ public class IngredienteController {
 					ingrediente.getQtd(), ingrediente.getValorDeVenda(), ingrediente.getFoto64(), 
 					ingrediente.getTipoIngrediente().getNome()));
 		}
-		
-		return new ResponseEntity<List<IngredienteData>>(ingredientes, HttpStatus.OK);
+		return ResponseEntity.ok(ingredientes);
 	}
 	
 }
