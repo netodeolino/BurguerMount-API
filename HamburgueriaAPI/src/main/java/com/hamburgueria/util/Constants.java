@@ -23,6 +23,7 @@ public class Constants {
 	
 	public static final String SUCESSO_CADASTRO_USUARIO = "Usuário cadastrado com Sucesso!";
 	public static final String SUCESSO_ATUALIZAR_USUARIO = "Usuário atualizado com Sucesso!";
+	public static final String ERRO_ATUALIZAR_USUARIO = "Erro ao atualizar usuário!";
 	public static final String SUCESSO_EXCLUIR_USUARIO = "Usuário excluído com Sucesso!";
 	public static final String ERRO_CADASTRO_USUARIO = "Verifique sua conexão ou o Email informado !";
 	

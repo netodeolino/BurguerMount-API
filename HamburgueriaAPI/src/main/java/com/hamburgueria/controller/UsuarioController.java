@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hamburgueria.config.JwtEvaluator;
 import com.hamburgueria.exceptions.TokenException;
-import com.hamburgueria.exceptions.UsuarioException;
 import com.hamburgueria.model.Papel;
 import com.hamburgueria.model.Usuario;
 import com.hamburgueria.response.AuthToken;
 import com.hamburgueria.response.MensagemRetorno;
+import com.hamburgueria.response.Response;
 import com.hamburgueria.response.SedeData;
 import com.hamburgueria.response.UsuarioData;
 import com.hamburgueria.service.UsuarioService;
@@ -51,22 +51,29 @@ public class UsuarioController {
 	private static final long EXPIRATION_TIME = 1000 * Constants.TOKEN_EXPIRAR_MINUTOS;
 	
 	@PostMapping(path="/login")
-	public AuthToken logar(@RequestBody Usuario usuario){
+	public ResponseEntity logar(@RequestBody Usuario usuario) {
+		Response<AuthToken> response = new Response<AuthToken>();
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				usuario.getUsername(), 
 				usuario.getPassword(), 
 				Collections.emptyList()
 		));
-		String JWT = Jwts.builder()
-				.setSubject(authentication.getName())
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, Constants.CHAVE_SECRETA)
-				.compact();
-		return new AuthToken(Constants.TOKEN_PREFIX + " " + JWT);
+		try {
+			String JWT = Jwts.builder()
+					.setSubject(authentication.getName())
+					.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+					.signWith(SignatureAlgorithm.HS512, Constants.CHAVE_SECRETA)
+					.compact();
+			return ResponseEntity.ok(new MensagemRetorno(Constants.TOKEN_PREFIX + " " + JWT));
+		} catch (Exception e) {
+			response.getErrors().add(Constants.ERRO_EMAIL_SENHA);
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
 	
 	@GetMapping
-	public ResponseEntity<UsuarioData> buscar() throws TokenException {
+	public ResponseEntity buscar() throws TokenException {
+		Response<MensagemRetorno> response = new Response<MensagemRetorno>();
 		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
 		
 		UsuarioData userResponse = new UsuarioData(usuarioLogado.getId(), usuarioLogado.getNome(),
@@ -86,41 +93,52 @@ public class UsuarioController {
 		if (usuarioLogado.getFoto64() != null) {
 			userResponse.setFoto64(usuarioLogado.getFoto64());
 		}
-		return new ResponseEntity<UsuarioData>(userResponse, HttpStatus.OK);
+		return ResponseEntity.ok(userResponse);
 	}
 	
 	@PostMapping
-	public MensagemRetorno cadastrar(@RequestBody @Valid Usuario usuario) throws UsuarioException {
+	public ResponseEntity cadastrar(@RequestBody @Valid Usuario usuario) {
+		Response<MensagemRetorno> response = new Response<MensagemRetorno>();
 		try {
 			usuario.setPapel(Papel.CLIENTE);
 			usuarioService.salvar(usuario);
-			return new MensagemRetorno(Constants.SUCESSO_CADASTRO_USUARIO);
+			return ResponseEntity.ok(new MensagemRetorno(Constants.SUCESSO_CADASTRO_USUARIO));
 		} catch (Exception e) {
-			throw new UsuarioException(Constants.ERRO_CADASTRO_USUARIO);
+			response.getErrors().add(Constants.ERRO_CADASTRO_USUARIO);
+			return ResponseEntity.badRequest().body(response);
 		}
 	}
 	
 	// Quais informações serão atualizadas? Criar métodos diferentes para cada tipo de atualização? Coisas a serem decididas!
 	@PutMapping
-	public MensagemRetorno atualizar(@RequestBody Usuario usuario) {
+	public ResponseEntity atualizar(@RequestBody Usuario usuario) {
+		Response<MensagemRetorno> response = new Response<MensagemRetorno>();
 		Usuario usuarioBanco = usuarioService.buscar(usuario.getEmail());
 		if (usuarioService.compararSenha(usuario.getSenha(), usuarioBanco.getSenha())) {
 			usuarioBanco.setNome(usuario.getNome());
 			usuarioService.salvar(usuarioBanco);
-			return new MensagemRetorno(Constants.SUCESSO_ATUALIZAR_USUARIO);
+			return ResponseEntity.ok(new MensagemRetorno(Constants.SUCESSO_ATUALIZAR_USUARIO));
 		}
-		return new MensagemRetorno(Constants.ERRO_EMAIL_SENHA);
+		response.getErrors().add(Constants.ERRO_EMAIL_SENHA);
+		return ResponseEntity.badRequest().body(response);
 	}
 	
 	@DeleteMapping
-	public MensagemRetorno excluir(@PathParam(value="email") String email) {
+	public ResponseEntity excluir(@PathParam(value="email") String email) {
+		Response<MensagemRetorno> response = new Response<MensagemRetorno>();
 		Usuario usuarioBanco = usuarioService.buscar(email);
-		usuarioService.excluir(usuarioBanco.getId());
-		return new MensagemRetorno(Constants.SUCESSO_EXCLUIR_USUARIO);
+		try {
+			usuarioService.excluir(usuarioBanco.getId());
+			return ResponseEntity.ok(new MensagemRetorno(Constants.SUCESSO_EXCLUIR_USUARIO));
+		} catch (Exception e) {
+			response.getErrors().add(Constants.ERRO_ATUALIZAR_USUARIO);
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
 	
 	@PostMapping(path="/validartoken")
-	public MensagemRetorno token(@RequestBody AuthToken authToken) throws TokenException {
+	public ResponseEntity token(@RequestBody AuthToken authToken) {
+		Response<AuthToken> response = new Response<AuthToken>();
 		String token = authToken.getToken();
         if (token != null) {
         	String email = null;
@@ -131,14 +149,17 @@ public class UsuarioController {
 								.getBody()
 								.getSubject();
         	}catch (Exception e) {
-        		throw new TokenException(Constants.TOKEN_INVALIDO);
+        		response.getErrors().add(Constants.TOKEN_INVALIDO);
+        		return ResponseEntity.badRequest().body(response);
         	}
 			if(usuarioService.buscar(email) != null) {
-				return new MensagemRetorno(Constants.TOKEN_VALIDO);
+				return ResponseEntity.ok(new AuthToken(Constants.TOKEN_VALIDO));
 			}
-			return new MensagemRetorno(Constants.ERRO_EMAIL_SENHA);
+			response.getErrors().add(Constants.ERRO_EMAIL_SENHA);
+			return ResponseEntity.badRequest().body(response);
         }
-        throw new TokenException(Constants.TOKEN_INVALIDO);
+        response.getErrors().add(Constants.TOKEN_INVALIDO);
+		return ResponseEntity.badRequest().body(response);
 	}
 	
 	@GetMapping(path="/atrusuario")
