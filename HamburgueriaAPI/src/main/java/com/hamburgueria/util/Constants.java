@@ -27,6 +27,12 @@ public class Constants {
 	public static final String SUCESSO_EXCLUIR_USUARIO = "Usuário excluído com Sucesso!";
 	public static final String ERRO_CADASTRO_USUARIO = "Verifique sua conexão ou o Email informado !";
 	
+	public static final String SUCESSO_CADASTRO_PEDIDO = "Pedido cadastrado com Sucesso!";
+	public static final String ERRO_CADASTRO_PEDIDO = "Erro ao cadastrar Pedido!";
+	public static final String SUCESSO_EXCLUIR_PEDIDO = "Pedido excluído com Sucesso!";
+	public static final String ERRO_EXCLUIR_PEDIDO = "Erro ao excluir Pedudo!";
+	public static final String SUCESSO_ATUALIZAR_PEDIDO = "Pedido atualizado com Sucesso!";
+	
 	public static final String TOKEN_VALIDO = "Token válido";
 	public static final String TOKEN_INVALIDO = "Token inválido";
 }
