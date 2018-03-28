@@ -133,4 +133,87 @@ public class Ingrediente {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+
+	@Override
+	public String toString() {
+		return "Ingrediente [id=" + id + ", nome=" + nome + ", qtd=" + qtd + ", porcao=" + porcao + ", valorDeVenda="
+				+ valorDeVenda + ", valorBruto=" + valorBruto + ", disponivel=" + disponivel + ", sede=" + sede
+				+ ", tipoIngrediente=" + tipoIngrediente + ", produtos=" + produtos + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (disponivel ? 1231 : 1237);
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((porcao == null) ? 0 : porcao.hashCode());
+		result = prime * result + ((produtos == null) ? 0 : produtos.hashCode());
+		result = prime * result + ((qtd == null) ? 0 : qtd.hashCode());
+		result = prime * result + ((sede == null) ? 0 : sede.hashCode());
+		result = prime * result + ((tipoIngrediente == null) ? 0 : tipoIngrediente.hashCode());
+		result = prime * result + ((valorBruto == null) ? 0 : valorBruto.hashCode());
+		result = prime * result + ((valorDeVenda == null) ? 0 : valorDeVenda.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ingrediente other = (Ingrediente) obj;
+		if (disponivel != other.disponivel)
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (porcao == null) {
+			if (other.porcao != null)
+				return false;
+		} else if (!porcao.equals(other.porcao))
+			return false;
+		if (produtos == null) {
+			if (other.produtos != null)
+				return false;
+		} else if (!produtos.equals(other.produtos))
+			return false;
+		if (qtd == null) {
+			if (other.qtd != null)
+				return false;
+		} else if (!qtd.equals(other.qtd))
+			return false;
+		if (sede == null) {
+			if (other.sede != null)
+				return false;
+		} else if (!sede.equals(other.sede))
+			return false;
+		if (tipoIngrediente == null) {
+			if (other.tipoIngrediente != null)
+				return false;
+		} else if (!tipoIngrediente.equals(other.tipoIngrediente))
+			return false;
+		if (valorBruto == null) {
+			if (other.valorBruto != null)
+				return false;
+		} else if (!valorBruto.equals(other.valorBruto))
+			return false;
+		if (valorDeVenda == null) {
+			if (other.valorDeVenda != null)
+				return false;
+		} else if (!valorDeVenda.equals(other.valorDeVenda))
+			return false;
+		return true;
+	}
 }

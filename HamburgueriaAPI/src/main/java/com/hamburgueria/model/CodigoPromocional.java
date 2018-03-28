@@ -62,5 +62,60 @@ public class CodigoPromocional {
 		String codigo = String.valueOf(uuid);
 		return codigo.substring(0, 6).toUpperCase();
 	}
+
+	@Override
+	public String toString() {
+		return "CodigoPromocional [id=" + id + ", codigo=" + codigo + ", creditos=" + creditos + ", maxUso=" + maxUso
+				+ ", usuarios=" + usuarios + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((creditos == null) ? 0 : creditos.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((maxUso == null) ? 0 : maxUso.hashCode());
+		result = prime * result + ((usuarios == null) ? 0 : usuarios.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CodigoPromocional other = (CodigoPromocional) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (creditos == null) {
+			if (other.creditos != null)
+				return false;
+		} else if (!creditos.equals(other.creditos))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (maxUso == null) {
+			if (other.maxUso != null)
+				return false;
+		} else if (!maxUso.equals(other.maxUso))
+			return false;
+		if (usuarios == null) {
+			if (other.usuarios != null)
+				return false;
+		} else if (!usuarios.equals(other.usuarios))
+			return false;
+		return true;
+	}
 	
 }
