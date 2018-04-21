@@ -65,7 +65,7 @@ public class UsuarioController {
 					.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 					.signWith(SignatureAlgorithm.HS512, Constants.CHAVE_SECRETA)
 					.compact();
-			return ResponseEntity.ok(new Token(Constants.TOKEN_PREFIX + " " + JWT));
+			return ResponseEntity.ok(new AuthToken(Constants.TOKEN_PREFIX + " " + JWT));
 		} catch (Exception e) {
 			response.getErrors().add(Constants.ERRO_EMAIL_SENHA);
 			return ResponseEntity.badRequest().body(response);
