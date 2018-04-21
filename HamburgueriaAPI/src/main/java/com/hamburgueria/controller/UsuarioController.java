@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hamburgueria.config.JwtEvaluator;
 import com.hamburgueria.exceptions.TokenException;
 import com.hamburgueria.model.Papel;
+import com.hamburgueria.model.Token;
 import com.hamburgueria.model.Usuario;
 import com.hamburgueria.response.AuthToken;
 import com.hamburgueria.response.MensagemRetorno;
@@ -64,7 +65,7 @@ public class UsuarioController {
 					.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 					.signWith(SignatureAlgorithm.HS512, Constants.CHAVE_SECRETA)
 					.compact();
-			return ResponseEntity.ok(new MensagemRetorno(Constants.TOKEN_PREFIX + " " + JWT));
+			return ResponseEntity.ok(new Token(Constants.TOKEN_PREFIX + " " + JWT));
 		} catch (Exception e) {
 			response.getErrors().add(Constants.ERRO_EMAIL_SENHA);
 			return ResponseEntity.badRequest().body(response);
@@ -73,7 +74,6 @@ public class UsuarioController {
 	
 	@GetMapping
 	public ResponseEntity buscar() throws TokenException {
-		Response<MensagemRetorno> response = new Response<MensagemRetorno>();
 		Usuario usuarioLogado = jwtEvaluator.usuarioToken();
 		
 		UsuarioData userResponse = new UsuarioData(usuarioLogado.getId(), usuarioLogado.getNome(),

@@ -21,8 +21,9 @@ public class Token {
 	
 	private Long tempoCriacao;
 
-	public Token() {
-		tempoCriacao = new Date().getTime();
+	public Token(String token) {
+		this.tempoCriacao = new Date().getTime();
+		this.token = token;
 	}
 	
 	public String getToken() {
