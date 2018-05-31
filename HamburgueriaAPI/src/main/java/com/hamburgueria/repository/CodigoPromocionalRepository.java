@@ -9,7 +9,7 @@ import com.hamburgueria.model.CodigoPromocional;
 
 @Repository
 @Transactional
-public interface CodigoPromocionalRepository extends JpaRepository<CodigoPromocional, Long>{
+public interface CodigoPromocionalRepository extends JpaRepository<CodigoPromocional, Long>, CodigoPromocionalRepositoryCustom {
 
 	//Busca um codigo pela string do seu codigo
 	public CodigoPromocional findByCodigo(String codigo); 
